@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="contact" format="json">
+      <types:shape format="weave" example="api/examples/Contact.json"><![CDATA[%dw 2.0
+
+type contact = {|
+  firstName: String, 
+  lastName: String, 
+  dateOfBirth: String, 
+  gender: String, 
+  title: String, 
+  addresses: Array<{|    number: Number {"typeId": "int"},     street: String,     city: String,     state: String,     postalCode: String,     addressType: String  |}>, 
+  communications: Array<{|    communicationType: String,     communicationValue: String  |}>
+|} {"example": "{\\\"firstName\\\":\\\"Jason\\\",\\\"lastName\\\":\\\"Bourne\\\",\\\"dateOfBirth\\\":\\\"2001-10-19\\\",\\\"gender\\\":\\\"Male\\\",\\\"title\\\":\\\"Mr\\\",\\\"addresses\\\":[{\\\"number\\\":234,\\\"street\\\":\\\"Pleasure 4598\\\",\\\"city\\\":\\\"Shreveport\\\",\\\"state\\\":\\\"Louisiana\\\",\\\"postalCode\\\":\\\"71105\\\",\\\"addressType\\\":\\\"HOME\\\"},{\\\"number\\\":987,\\\"street\\\":\\\"Autumn Leaf 3\\\",\\\"city\\\":\\\"Jackson\\\",\\\"state\\\":\\\"Mississippi\\\",\\\"postalCode\\\":\\\"39204\\\",\\\"addressType\\\":\\\"HOME\\\"}],\\\"communications\\\":[{\\\"communicationType\\\":\\\"Phone\\\",\\\"communicationValue\\\":\\\"904-568-9343\\\"},{\\\"communicationType\\\":\\\"Email\\\",\\\"communicationValue\\\":\\\"someone@gmail.com\\\"}]}"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#8436b14c-9f20-4f22-b773-58896940d228">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="contact"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

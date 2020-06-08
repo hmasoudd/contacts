@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="GetContactAddresses" doc:id="cab8157a-d136-4e60-bfec-a70a84aae825" >
+		<logger level="INFO" doc:name="Logger" doc:id="b906be1e-a743-4e8d-ac61-14c0005a0fe9" message="Getting all addressess for Contact Id #[vars.id]"/>
+		<db:select doc:name="Select" doc:id="3a9e782c-aa3b-4c78-be58-02364a5830d6" config-ref="Database_Config">
+			<db:sql >select ContactAddressId, contactId, addressType , number, street ,unit ,city ,state ,zip from ContactAddress
+where contactId = :contactId
+and active = true</db:sql>
+			<db:input-parameters ><![CDATA[#[{'contactId' : vars.id as Number}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd" doc:id="6bc58689-d870-4dae-b1a8-a525186a8569">
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	id: payload01.ContactAddressId,
+	number: payload01.number,
+	unit: payload01.unit,
+	city: payload01.city,
+	addressType: payload01.addressType,
+	street: payload01.street,
+	postalCode: payload01.zip,
+	state: payload01.state
+}]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+	</flow>
+	<flow name="GetContactCommunication" doc:id="9613be9a-ec94-4b28-a67d-3c7d58a6b372" >
+		<logger level="INFO" doc:name="Logger" doc:id="1ac50bd0-201f-4af1-b66e-23283f7d8203" message="Getting all Communications for Contact Id #[vars.id]"/>
+		<db:select doc:name="Select" doc:id="4d762cb9-57ad-4b4a-9b40-7508b886d608" config-ref="Database_Config">
+			<db:sql >SELECT contactCommunicationId,  contactId, communicationType, communicationValue
+from ContactCommunication
+where contactId = :contactId
+and active = true</db:sql>
+			<db:input-parameters ><![CDATA[#[{'contactId' : vars.id as Number}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="94f27b04-587c-4b61-8205-9a8e408e4eaf" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( payload01 , indexOfPayload01 ) -> {
+	communicationType: payload01.communicationType,
+	id: payload01.contactCommunicationId,
+	communicationValue: payload01.communicationValue
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetContactById" doc:id="5d76f172-0cad-4c31-a37b-a572fa9e5d90" >
+		<logger level="INFO" doc:name="Logger" doc:id="7bba3955-c554-4117-ac68-64df012d7db7" message="Getting Contact for Contact Id #[vars.id]"/>
+		<db:select doc:name="Select" doc:id="743f8fdb-dd46-42fc-863d-a675252b89e3" config-ref="Database_Config">
+			<db:sql >SELECT lastName,  firstName, dateOfBirth, gender , title
+from contacts
+where contactId = :contactId
+and active = true</db:sql>
+			<db:input-parameters ><![CDATA[#[{'contactId' : vars.id as Number}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="8436b14c-9f20-4f22-b773-58896940d228" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+
+{
+	firstName: payload.firstName[0] ,
+	lastName: payload.lastName[0],
+	dateOfBirth: payload.dateOfBirth[0] as Date, 
+	gender: payload.gender[0],
+	title: payload.title[0]
+}
+
+
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Get Addresses" doc:id="f0a4378f-9ad0-4560-a9e0-706a38639a31" name="GetContactAddresses" target="addresses"/>
+		<flow-ref doc:name="Flow Reference" doc:id="0214498f-af6c-4fe9-8171-0914bd082bfd" name="GetContactCommunication" target="communications"/>
+		<ee:transform doc:name="Transform Message" doc:id="86ebc95c-df38-4adc-9dc1-29f70416fa9f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	firstName: payload.firstName,
+	lastName: payload.lastName,
+	dataOfBirth: payload.dateOfBirth,
+	gender: payload.gender,
+	title: payload.title,
+	addresses: vars.addresses,
+	communications: vars.communications
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetAddressForContactByAddressId" doc:id="b098cc3b-2789-436d-94a8-e4bc6aa27e25" >
+		<logger level="INFO" doc:name="Logger" doc:id="0ca51ab0-3ca0-41f1-bcaf-623538d99093" message="Getting Adress for Contact Id #[vars.id] and Address Id #[vars.addressId]"/>
+		<db:select doc:name="Select" doc:id="2cbf77cc-e7f3-4d85-919f-949472fa5232" config-ref="Database_Config">
+			<db:sql >select ContactAddressId, contactId, addressType , number, street ,unit ,city ,state ,zip from ContactAddress
+where contactId = :contactId
+and ContactAddressId = :addressId
+and active = true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number , addressId : vars.addressId as Number }]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="5dc6ad85-38c2-4d24-9f9c-91bde8130079" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{( 
+	payload map ( payload01 , indexOfPayload01 ) -> {
+	id: payload01.ContactAddressId,
+	number: payload01.number,
+	unit: payload01.unit,
+	city: payload01.city,
+	addressType: payload01.addressType,
+	street: payload01.street,
+	postalCode: payload01.zip,
+	state: payload01.state
+}
+
+)}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetCommunicationForContactAndCommId" doc:id="85a28032-0d34-4b39-92d5-ce36f08729fb" >
+		<logger level="INFO" doc:name="Logger" doc:id="0fa378ca-a262-4968-8ddd-8c3525705164" message="Getting Communication for Contact Id #[vars.id] and Communication Id #[vars.communicationId]"/>
+		<db:select doc:name="Select" doc:id="e85c9bcc-febe-4eae-9cb9-48bcccc1fbbc" config-ref="Database_Config">
+			<db:sql >SELECT contactCommunicationId,  contactId, communicationType, communicationValue
+from ContactCommunication
+where contactId = :contactId
+and contactCommunicationId = :contactCommunicationId
+and active = true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number , contactCommunicationId : vars.communicationId as Number }]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="a0aee901-0e54-4a06-a3b0-107e0961e0c4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{( 
+payload map ( payload01 , indexOfPayload01 ) -> {
+	communicationType: payload01.communicationType,
+	id: payload01.contactCommunicationId,
+	communicationValue: payload01.communicationValue
+}
+
+)}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="DeActivateAddressForContact" doc:id="82fe77c0-606b-477e-aa4f-c3afd5043c29" >
+		<logger level="INFO" doc:name="Logger" doc:id="3cc6a6c5-ad20-4575-88fc-fdad0cb4967d" message="De-Activating Address for Contact Id #[vars.id] and Address Id #[vars.addressId]"/>
+		<db:update doc:name="Update" doc:id="57831116-cee4-4731-8123-f2c055a2fbdc" config-ref="Database_Config">
+			<db:sql >update ContactAddress
+set  active = false , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and ContactAddressId = :addressId
+and active=true
+</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number , addressId : vars.addressId as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="UpdateActiveContact" doc:id="efec72d8-19c3-46fa-9fa4-1b5646556067" >
+		<logger level="INFO" doc:name="Logger" doc:id="2422349b-4c1e-4b21-ba99-c42b1c91abe3" message="updating  Contact  informtion for contact Id #[vars.id] "/>
+		<db:update doc:name="Update" doc:id="0a3c06c0-3699-4177-83aa-ebaaefa0c214" config-ref="Database_Config">
+			<db:sql >update contacts
+set  lastName = :lastName , firstName = :firstName , dateOfBirth = :dateOfBirth , gender = :gender, title = :title  ,  lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{ lastName : payload.lastName , firstName : payload.firstName ,dateOfBirth: payload.dateOfBirth as Date, gender : payload.gender , title : vars.id as Number , contactId : vars.id as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="UpdateActiveAddressForContact" doc:id="e9ab414c-1e63-4a0f-966d-f6efcf4802b3" >
+		<logger level="INFO" doc:name="Logger" doc:id="47c5c2a7-e2d7-4fc3-814b-90fba91c0e6e" message="updating Address for Contact Id #[vars.id] and Address Id #[vars.addressId]"/>
+		<db:update doc:name="Update" doc:id="6450610b-0be6-498b-ba55-1eac46581ed5" config-ref="Database_Config">
+			<db:sql >update ContactAddress
+set  addressType = :addressType , number = :number , street = :street , unit = :unit, city = :city , state= :state ,  zip = :zip ,  lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and ContactAddressId = :addressId
+and active=true
+</db:sql>
+			<db:input-parameters ><![CDATA[#[{ addressType : payload.addressType , number : payload.number as Number ,street : payload.street , unit : payload.unit , city : payload.city , state : payload.state , zip : payload.postalCode ,contactId : vars.id as Number , addressId : vars.addressId as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="DeActivateCommunicationForContact" doc:id="8a94dab1-d821-46a6-9492-6dbe1bf26780" >
+		<logger level="INFO" doc:name="Logger" doc:id="e1a67a37-ed90-4e60-8ba2-33d3a6f36d0c" message="De-Activating Communication for Contact Id #[vars.id] and Communication Id #[vars.communicationId]"/>
+		<db:update doc:name="Update" doc:id="9c9f8a7d-1148-4e9a-8ed0-0529aa0dd1e1" config-ref="Database_Config">
+			<db:sql >update ContactCommunication
+set  active = false , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and contactCommunicationId = :communicationId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="UpdateActiveCommunicationForContact" doc:id="17cb585b-bcee-4003-a861-2fbdb3f916ac" >
+		<logger level="INFO" doc:name="Logger" doc:id="f9312b3a-c3d0-4a42-adf8-664564a2a8d3" message="Updating Communication for Contact Id #[vars.id] and Communication Id #[vars.communicationId]"/>
+		<db:update doc:name="Update" doc:id="379fed50-3d69-42ac-a7a8-d145d6cb4556" config-ref="Database_Config">
+			<db:sql >update ContactCommunication
+set  communicationType = :communicationType , communicationValue= :communicationValue , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and contactCommunicationId = :communicationId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{communicationType: payload.communicationType , communicationValue : payload.communicationValue , contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="DeActivateAllAddressesForContact" doc:id="4e274742-ddae-4fc7-8068-1d7e25ab1299" >
+		<logger level="INFO" doc:name="Logger" doc:id="70373b82-195c-40bc-b299-22cbedb9b048" message="De-Activating all active Addresses for Contact Id #[vars.id] "/>
+		<db:update doc:name="Update" doc:id="3ac0ba45-5acd-4f0c-95f3-a600b3d47df7" config-ref="Database_Config">
+			<db:sql >update ContactAddress
+set  active = false , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="DeActivateAllCommunicationToContact" doc:id="71be2077-5452-45d0-b645-9b2c2051546b" >
+		<logger level="INFO" doc:name="Logger" doc:id="24b4ee02-f6dc-4ef1-bc44-b5f290c954ef" message="De-Activating all active Communictions for Contact Id #[vars.id] "/>
+		<db:update doc:name="Update" doc:id="1980d7ce-5178-4f1a-9604-3270d00ec2b0" config-ref="Database_Config">
+			<db:sql >update ContactCommunication
+set  active = false , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number }]]]></db:input-parameters>
+		</db:update>
+	</flow>
+	<flow name="DeActivateContact" doc:id="19628371-bc22-40fc-b4b4-bcf67d35fee5" >
+		<logger level="INFO" doc:name="Logger" doc:id="7637cab7-d303-4068-a0f6-4ad34178ab38" message="De-Activating active  Contact Id #[vars.id] "/>
+		<db:update doc:name="Update" doc:id="85c923db-af68-45e2-b292-3aaf851a76ee" config-ref="Database_Config">
+			<db:sql >update contacts
+set  active = false , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+where contactId = :contactId
+and active=true</db:sql>
+			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number }]]]></db:input-parameters>
+		</db:update>
+		<flow-ref doc:name="DeActivate Addresses" doc:id="f78a074e-1746-47f3-a35c-a7228eabe682" name="DeActivateAllAddressesForContact"/>
+		<flow-ref doc:name="Deactivate Communications" doc:id="d5334491-b2ba-40d0-8566-938053110084" name="DeActivateAllCommunicationToContact"/>
+	</flow>
+	<flow name="AddMultipleAddressesToContact" doc:id="88769723-d572-4d12-ba5e-bd953dfb7be4" >
+		<logger level="INFO" doc:name="Logger" doc:id="5459f282-ae9c-4412-9729-ee2658ea0e77" message="Creating multiple active Addresses for Contact Id #[vars.contactId] "/>
+		<ee:transform doc:name="Transform Message" doc:id="d4b8f5a0-95d8-4244-8326-b58ae1bb4ad0" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="addresses" ><![CDATA[%dw 2.0
+output application/json
+---
+
+payload.addresses map (() -> {
+	  "contactId" : vars.contactId ,
+      "number": $.number as Number,
+      "unit" : $.unit,
+      "street": $.street,
+      "city": $.city,
+      "state": $.state,
+      "postalCode": $.postalCode,
+      "addressType": $.addressType
+})
+]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="c7acda62-d00a-40e6-bc7c-b4bb5e0d9c3b" config-ref="Database_Config" target="addressBulkInsertResults">
+			<db:bulk-input-parameters ><![CDATA[#[vars.addresses]]]></db:bulk-input-parameters>
+			<db:sql >insert  into ContactAddress ( contactId , addressType , number, street, unit ,city , state , zip) values 
+
+( :contactId, :addressType , :number, :street, :unit ,:city , :state , :postalCode) </db:sql>
+		</db:bulk-insert>
+	</flow>
+	<flow name="AddMultipleCommunicationToContact" doc:id="e9bacd97-db51-4065-af26-8e4893b6c7cd" >
+		<logger level="INFO" doc:name="Logger" doc:id="67a905a8-3a0f-4e6e-b636-e646d682a5fa" message="Creating multiple active Communications for Contact Id #[vars.contactId] "/>
+		<ee:transform doc:name="Transform Message" doc:id="5ed84951-f1ba-4080-8159-9598fa3a116e" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="communications" ><![CDATA[%dw 2.0
+output application/json
+---
+
+payload.communications map (() -> {
+	  "contactId" : vars.contactId ,
+      "communicationValue" : $.communicationValue,
+      "communicationType": $.communicationType
+})]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<db:bulk-insert doc:name="Bulk insert" doc:id="fb0f93f8-305c-414d-a7f9-1ae6b22af92e" config-ref="Database_Config" target="communicationBulkInsertResults">
+			<db:bulk-input-parameters ><![CDATA[#[vars.communications]]]></db:bulk-input-parameters>
+			<db:sql >insert  into ContactCommunication ( contactId , communicationType , communicationValue ) values 
+( :contactId , :communicationType , :communicationValue )</db:sql>
+		</db:bulk-insert>
+	</flow>
+	<flow name="CreateNewContact" doc:id="3ba12320-bfbc-491d-ae25-5adf76418ef0" >
+		<logger level="INFO" doc:name="Logger" doc:id="787b000f-ecd6-44fe-8fe0-4cbb6f4f6cbe" message="Create new Contact including Addresses and communications"/>
+		<db:insert doc:name="Insert" doc:id="d5171dda-4163-41bc-bdf0-f9721f2a2643" config-ref="Database_Config" autoGenerateKeys="true" target="contactId">
+			<db:sql >insert  into contacts (  lastName , firstName , dateOfBirth , gender , title ) values 
+(  :lastName , :firstName , :dateOfBirth , :gender , :title )</db:sql>
+			<db:input-parameters ><![CDATA[#[{lastName : payload.lastName ,  firstName : payload.firstName , dateOfBirth : payload.dateOfBirth as Date , gender: payload.gender , title:payload.title }]]]></db:input-parameters>
+			<db:auto-generated-keys-column-names >
+				<db:auto-generated-keys-column-name value="contactId" />
+			</db:auto-generated-keys-column-names>
+		</db:insert>
+		<set-variable value="#[vars.contactId.generatedKeys.GENERATED_KEY]" doc:name="Set Variable" doc:id="16a58b5e-e956-4782-9aee-9cb1ea2f9c15" variableName="contactId"/>
+		<flow-ref doc:name="add Adresses" doc:id="0dfab9bd-9bf6-4ffd-b66e-232c240bb9a8" name="AddMultipleAddressesToContact"/>
+		<flow-ref doc:name="add Communications" doc:id="3bc07cec-399c-4dba-ae83-284355744c8b" name="AddMultipleCommunicationToContact"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0c3c4538-c470-4f0b-82e2-500e6db6e747" message="successfuly created new contact Id = #[payload.id]"/>
+	</flow>
+		
+</mule>

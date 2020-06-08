@@ -1,0 +1,6 @@
+database:
+  host: "contactsdb.czld4orqrhcv.us-east-2.rds.amazonaws.com"
+  port: "3306"
+  user: "admin"
+  password: "V!0let123"
+  name: "ContactsDB"

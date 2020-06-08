@@ -1,0 +1,35 @@
+{
+  "firstName": "Jason",
+  "lastName": "Bourne",
+  "dateOfBirth": "2001-10-19",
+  "gender": "Male",
+  "title" : "Mr" ,
+  "addresses": [
+    {
+      "number": 234,
+      "street": "Pleasure 4598",
+      "city": "Shreveport",
+      "state": "Louisiana",
+      "postalCode": "71105",
+      "addressType" :  "HOME"
+    },
+    {
+      "number": 987,
+      "street": "Autumn Leaf 3",
+      "city": "Jackson",
+      "state": "Mississippi",
+      "postalCode": "39204",
+      "addressType": "HOME"
+    }
+  ],
+  "communications": [
+    {
+      "communicationType": "Phone",
+      "communicationValue": "904-568-9343"
+    },
+    {
+      "communicationType": "Email",
+      "communicationValue": "someone@gmail.com"
+    }
+  ]
+}

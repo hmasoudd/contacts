@@ -1,0 +1,353 @@
+{
+	"info": {
+		"_postman_id": "6a37be8c-d0c7-4ef1-ab52-181f7a0cd649",
+		"name": "Contact-Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAddressesByContactId-1001",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetContactByContactId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAddressesByContactId-1000",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCommunicationByContactId-1000",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCommunicationByContactId-1001",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCommunicationByContactIdAndCommId",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"communicationType\": \"EMAIL\",\n  \"communicationValue\": \"hesham_masoud@gmail.com\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts/1001/communication/1000003",
+					"protocol": "http",
+					"host": [
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"1001",
+						"communication",
+						"1000003"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCommunicationByContactId",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/contacts/1000/communication/1000002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts",
+						"1000",
+						"communication",
+						"1000002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteContactByContactId",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts/1000",
+					"protocol": "http",
+					"host": [
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAddressByContactId-AdressId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateAddressByContactId-AdressId",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 100,\n  \"number\": 3461,\n  \"unit\": \"a12\",\n  \"city\": \"Houston\",\n  \"addressType\": \"HOME\",\n  \"street\": \"Lakeshore Road W\",\n  \"postalCode\": \"10012\",\n  \"state\": \"TX\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts/1000/address/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts",
+						"1000",
+						"address",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateContactByContactId",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": 100,\n  \"number\": 3461,\n  \"unit\": \"a12\",\n  \"city\": \"Houston\",\n  \"addressType\": \"HOME\",\n  \"street\": \"Lakeshore Road W\",\n  \"postalCode\": \"10012\",\n  \"state\": \"TX\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts/1000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts",
+						"1000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteAddressByContactId-AdressId Copy",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts/1000/address/100",
+					"protocol": "http",
+					"host": [
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"1000",
+						"address",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCommunicationByContactId-And-CommunicationId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateContact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Jason\",\n  \"lastName\": \"Bourne\",\n  \"dateOfBirth\": \"2001-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Pleasure 4598\",\n      \"city\": \"Shreveport\",\n      \"state\": \"Louisiana\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"904-568-9343\"\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"someone@gmail.com\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddCommunicationToContact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Jason\",\n  \"lastName\": \"Bourne\",\n  \"dateOfBirth\": \"2001-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Pleasure 4598\",\n      \"city\": \"Shreveport\",\n      \"state\": \"Louisiana\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"904-568-9343\"\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"someone@gmail.com\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddAddressToContact",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"Jason\",\n  \"lastName\": \"Bourne\",\n  \"dateOfBirth\": \"2001-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Pleasure 4598\",\n      \"city\": \"Shreveport\",\n      \"state\": \"Louisiana\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"904-568-9343\"\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"someone@gmail.com\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

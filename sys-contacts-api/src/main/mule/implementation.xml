@@ -38,10 +38,10 @@ payload map ( payload01 , indexOfPayload01 ) -> {
 	<flow name="GetContactCommunication" doc:id="9613be9a-ec94-4b28-a67d-3c7d58a6b372" >
 		<logger level="INFO" doc:name="Logger" doc:id="1ac50bd0-201f-4af1-b66e-23283f7d8203" message="Getting all Communications for Contact Id #[vars.id]"/>
 		<db:select doc:name="Select" doc:id="4d762cb9-57ad-4b4a-9b40-7508b886d608" config-ref="Database_Config">
-			<db:sql >SELECT contactCommunicationId,  contactId, communicationType, communicationValue
+			<db:sql ><![CDATA[SELECT contactCommunicationId,  contactId, communicationType, communicationValue, isPrefered
 from ContactCommunication
 where contactId = :contactId
-and active = true</db:sql>
+and active = true]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{'contactId' : vars.id as Number}]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="94f27b04-587c-4b61-8205-9a8e408e4eaf" >
@@ -51,9 +51,56 @@ output application/json
 ---
 payload map ( payload01 , indexOfPayload01 ) -> {
 	communicationType: payload01.communicationType,
-	id: payload01.contactCommunicationId,
-	communicationValue: payload01.communicationValue
+	communicationValue: payload01.communicationValue,
+	isPrefered: payload01.isPrefered
 }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="GetAllActiveContacts" doc:id="7dcb0497-5ae5-4c69-9b45-3a3e9bb50069" >
+		<logger level="INFO" doc:name="Logger" doc:id="66b060bb-fa11-48f4-bec5-1f6eaf0eb82c" message="Getting All Active Contacts"/>
+		<db:select doc:name="Select Active Contacts" doc:id="9ec640da-e5b3-44e5-bd6d-0fbfb24877a8" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT contactId , lastName,  firstName, dateOfBirth, gender , title
+from contacts
+where active = true]]></db:sql>
+		</db:select>
+		<db:select doc:name="Select Active Addresses" doc:id="5adff522-83e7-42b7-913d-30d54a486654" config-ref="Database_Config" target="activeAddresses">
+			<db:sql ><![CDATA[select ContactAddressId, contactId, addressType , number, street ,unit ,city ,state ,zip from ContactAddress
+where active = true]]></db:sql>
+		</db:select>
+		<db:select doc:name="Select Active Communications" doc:id="fb58d1ca-00ee-419c-be6d-83da93bef905" config-ref="Database_Config" target="activeCommunications">
+			<db:sql ><![CDATA[SELECT contactCommunicationId,  contactId, communicationType, communicationValue, isPrefered
+from ContactCommunication
+where active = true]]></db:sql>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="4cc0ea07-e924-40c8-91ec-a9ac1ceb6b3b" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload map ( contactRecord ) -> {
+	firstName: contactRecord.firstName,
+	lastName: contactRecord.lastName,
+	dateOfBith: contactRecord.dateOfBirth,
+	gender: contactRecord.gender,
+	title: contactRecord.title,
+	addresses: vars.activeAddresses filter ($.contactId == contactRecord.contactId ) map ( activeAddress , indexOfActiveAddress ) -> {
+		number: activeAddress.number,
+		street: activeAddress.street,
+		city: activeAddress.city,
+		state: activeAddress.state,
+		addressType: activeAddress.addressType
+	},
+	communications: vars.activeCommunications filter ($.contactId == contactRecord.contactId ) map ( activeCommunication , indexOfActiveCommunication ) -> {
+		communicationType: activeCommunication.communicationType,
+		communicationValue: activeCommunication.communicationValue,
+		isPrefered: activeCommunication.isPrefered,
+	}
+}
+
+
+
+]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</flow>
@@ -136,11 +183,11 @@ output application/json
 	<flow name="GetCommunicationForContactAndCommId" doc:id="85a28032-0d34-4b39-92d5-ce36f08729fb" >
 		<logger level="INFO" doc:name="Logger" doc:id="0fa378ca-a262-4968-8ddd-8c3525705164" message="Getting Communication for Contact Id #[vars.id] and Communication Id #[vars.communicationId]"/>
 		<db:select doc:name="Select" doc:id="e85c9bcc-febe-4eae-9cb9-48bcccc1fbbc" config-ref="Database_Config">
-			<db:sql >SELECT contactCommunicationId,  contactId, communicationType, communicationValue
+			<db:sql ><![CDATA[SELECT contactCommunicationId,  contactId, communicationType, communicationValue,isPrefered
 from ContactCommunication
 where contactId = :contactId
 and contactCommunicationId = :contactCommunicationId
-and active = true</db:sql>
+and active = true]]></db:sql>
 			<db:input-parameters ><![CDATA[#[{contactId : vars.id as Number , contactCommunicationId : vars.communicationId as Number }]]]></db:input-parameters>
 		</db:select>
 		<ee:transform doc:name="Transform Message" doc:id="a0aee901-0e54-4a06-a3b0-107e0961e0c4" >
@@ -151,8 +198,8 @@ output application/json
 {( 
 payload map ( payload01 , indexOfPayload01 ) -> {
 	communicationType: payload01.communicationType,
-	id: payload01.contactCommunicationId,
-	communicationValue: payload01.communicationValue
+	communicationValue: payload01.communicationValue,
+	isPrefered: payload01.isPrefered
 }
 
 )}]]></ee:set-payload>
@@ -207,12 +254,12 @@ and active=true</db:sql>
 	<flow name="UpdateActiveCommunicationForContact" doc:id="17cb585b-bcee-4003-a861-2fbdb3f916ac" >
 		<logger level="INFO" doc:name="Logger" doc:id="f9312b3a-c3d0-4a42-adf8-664564a2a8d3" message="Updating Communication for Contact Id #[vars.id] and Communication Id #[vars.communicationId]"/>
 		<db:update doc:name="Update" doc:id="379fed50-3d69-42ac-a7a8-d145d6cb4556" config-ref="Database_Config">
-			<db:sql >update ContactCommunication
-set  communicationType = :communicationType , communicationValue= :communicationValue , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
+			<db:sql ><![CDATA[update ContactCommunication
+set  communicationType = :communicationType , communicationValue= :communicationValue , isPrefered  = :isPrefered , lastUpdatedTimestamp = CURRENT_TIMESTAMP()
 where contactId = :contactId
 and contactCommunicationId = :communicationId
-and active=true</db:sql>
-			<db:input-parameters ><![CDATA[#[{communicationType: payload.communicationType , communicationValue : payload.communicationValue , contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
+and active=true]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{communicationType: payload.communicationType , communicationValue : payload.communicationValue , isPrefered : vars.isPrefered as Boolean , contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
 		</db:update>
 	</flow>
 	<flow name="DeActivateAllAddressesForContact" doc:id="4e274742-ddae-4fc7-8068-1d7e25ab1299" >
@@ -290,14 +337,15 @@ output application/json
 payload.communications map (() -> {
 	  "contactId" : vars.contactId ,
       "communicationValue" : $.communicationValue,
-      "communicationType": $.communicationType
+      "communicationType": $.communicationType,
+      "isPrefered": $.isPrefered
 })]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 		<db:bulk-insert doc:name="Bulk insert" doc:id="fb0f93f8-305c-414d-a7f9-1ae6b22af92e" config-ref="Database_Config" target="communicationBulkInsertResults">
 			<db:bulk-input-parameters ><![CDATA[#[vars.communications]]]></db:bulk-input-parameters>
-			<db:sql >insert  into ContactCommunication ( contactId , communicationType , communicationValue ) values 
-( :contactId , :communicationType , :communicationValue )</db:sql>
+			<db:sql ><![CDATA[insert  into ContactCommunication ( contactId , communicationType , communicationValue , isPrefered ) values 
+( :contactId , :communicationType , :communicationValue , :isPrefered)]]></db:sql>
 		</db:bulk-insert>
 	</flow>
 	<flow name="CreateNewContact" doc:id="3ba12320-bfbc-491d-ae25-5adf76418ef0" >

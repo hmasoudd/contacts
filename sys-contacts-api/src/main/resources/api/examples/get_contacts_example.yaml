@@ -23,9 +23,11 @@
     - 
       communicationType: "Phone"
       communicationValue: "904-568-9343"
+      isPrefered: true
     - 
       communicationType: "Email"
       communicationValue: "someone@gmail.com"
+      isPrefered: false
 - 
   id: 109
   firstName: "Malak"
@@ -51,7 +53,9 @@
     - 
       communicationType: "Phone"
       communicationValue: "904-568-9343"
+      isPrefered: true
     - 
       communicationType: "Email"
       communicationValue: "someone@gmail.com"
+      isPrefered: false
  

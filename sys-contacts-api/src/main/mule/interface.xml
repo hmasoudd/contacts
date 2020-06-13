@@ -330,6 +330,7 @@ output application/json
 ]]]></ee:set-payload>
             </ee:message>
         </ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="3c492fdb-6e1c-4c04-a8a2-4849abfa19a7" name="GetAllActiveContacts"/>
     </flow>
     <flow name="get:\contacts\(id)\address\(addressId):contact-system-api-config">
         <ee:transform xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" doc:id="39181c41-136b-4657-a957-ba84ca1144c4">

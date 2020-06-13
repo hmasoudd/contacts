@@ -26,4 +26,13 @@ type contact = {|
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#4cc0ea07-e924-40c8-91ec-a9ac1ceb6b3b">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="contact[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>

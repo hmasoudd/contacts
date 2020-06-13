@@ -1,5 +1,9 @@
 {
   "sampleData": {
-    "b39976fc-37ef-493e-98c5-eca78e7d621c": {}
+    "b39976fc-37ef-493e-98c5-eca78e7d621c": {},
+    "4cc0ea07-e924-40c8-91ec-a9ac1ceb6b3b": {
+      "vars-activeAddresses": "sample_data/list_object_1.dwl",
+      "payload": "sample_data/list_object.dwl"
+    }
   }
 }

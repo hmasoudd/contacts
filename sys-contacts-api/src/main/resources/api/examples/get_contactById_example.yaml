@@ -23,8 +23,10 @@ communications:
   - 
     communicationType: "Phone"
     communicationValue: "904-568-9343"
+    isPrefered: true
   - 
     communicationType: "Email"
     communicationValue: "someone@gmail.com"
+    isPrefered: false
 
 lastModifiedDate: "2016-03-24T15:00:00.000Z"

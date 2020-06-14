@@ -15,11 +15,12 @@ traits:
   client_id-required: !include traits/client-id-security.raml
 
 /contacts:
+  is : [client_id-required]
   description: |
     Working with contacts:
     * Retrieving all contacts
     * Creating contacts
-    is : [client_id-required]
+    
   get:
     displayName: Get contacts
     description: |
@@ -79,12 +80,13 @@ traits:
                   "message": "Failed to create new Contact"
                 }
   /{id}:
+    is : [client_id-required]
     description: |
       Working with contacts:
       * Retrieving specific contact
       * Updating specific contact
       * Deleting specific contact
-    is : [client_id-required]
+    
     uriParameters:
       id:
         type: integer
@@ -151,6 +153,7 @@ traits:
                   "message": "Resource not found"
                 }
     /address:
+      is : [client_id-required]
       get:
         displayName: GET Contact Addresses
         description: |
@@ -185,6 +188,7 @@ traits:
                   "message": "Failed to add new address to Contact"
                   }
       /{addressId}:
+        is : [client_id-required]
         description: |
           Working with contact Addresses:
           * Retrieving specific Address for a contact
@@ -256,6 +260,7 @@ traits:
                       "message": "Resource not found"
                     }
     /communication:
+      is : [client_id-required]
       get:
         displayName: GET Contact Communicarion
         description: |
@@ -290,6 +295,7 @@ traits:
                   "message": "Failed to add new address to Contact"
                   }
       /{communicationId}:
+        is : [client_id-required]
         description: |
           Working with contact communications:
           * Retrieving specific communication for a contact

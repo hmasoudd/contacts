@@ -1,0 +1,27 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/Address.raml
+
+type: object
+properties:
+  id?: integer
+  addressType?:  
+    enum :
+      - HOME
+      - OFFICE
+      - MAILING
+      - COTTAGE
+      - SECONDARY
+  number? : integer
+  street?: string
+  city?: string
+  state?: string
+  unit?: string
+  postalCode?: string
+  createdDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z
+  lastModifiedDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z
+  

@@ -1,0 +1,32 @@
+
+id: 103
+firstName: "Jason"
+lastName: "Bourne"
+dateOfBirth: "2001-10-19"
+gender: "Male"
+addresses:
+ -
+  number: 234
+  street: "Pleasure 4598"
+  city: "Shreveport"
+  state: "Louisiana"
+  postalCode: "71105"
+  country: "United States"
+ -
+  number: 987
+  street: "Autumn Leaf 3"
+  city: "Jackson"
+  state: "Mississippi"
+  postalCode: "39204"
+  country: "United States"
+communications:
+  - 
+    communicationType: "Phone"
+    communicationValue: "904-568-9343"
+    isPrefered: true
+  - 
+    communicationType: "Email"
+    communicationValue: "someone@gmail.com"
+    isPrefered: false
+
+lastModifiedDate: "2016-03-24T15:00:00.000Z"

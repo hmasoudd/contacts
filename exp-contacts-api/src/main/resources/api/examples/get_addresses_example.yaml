@@ -1,0 +1,16 @@
+-
+  id: 10003
+  number: 8765
+  street: "Pleasure 4598"
+  city: "NYC"
+  state: "New York"
+  postalCode: "10012"
+  country: "United States"
+-
+  id: 10004
+  number: 1919
+  street: "Spring"
+  city: "Orlando"
+  state: "Florida"
+  postalCode: "40412"
+  country: "United States"

@@ -1,0 +1,8 @@
+sys_contact_api:
+  host: sys-contacts-api.us-e2.cloudhub.io
+  root-context: /api
+  
+
+client:
+  client_id: 237365396b3044ffb2524ba54a64fc1f
+  client_secret: 20Ec4a59650A4FB28D5313431fe5661c

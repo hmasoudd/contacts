@@ -1,0 +1,61 @@
+-
+  id: 103
+  firstName: "Jason"
+  lastName: "Bourne"
+  dateOfBirth: "2001-10-19"
+  gender: "Male"
+  addresses:
+    -
+      number: 234
+      street: "Pleasure 4598"
+      city: "Shreveport"
+      state: "Louisiana"
+      postalCode: "71105"
+      country: "United States"
+    -
+      number: 987
+      street: "Autumn Leaf 3"
+      city: "Jackson"
+      state: "Mississippi"
+      postalCode: "39204"
+      country: "United States"
+  communications:
+    - 
+      communicationType: "Phone"
+      communicationValue: "904-568-9343"
+      isPrefered: true
+    - 
+      communicationType: "Email"
+      communicationValue: "someone@gmail.com"
+      isPrefered: false
+- 
+  id: 109
+  firstName: "Malak"
+  lastName: "Masoud"
+  dateOfBirth: "2001-10-07"
+  gender: "Female"
+  addresses:
+    -
+      number: 8765
+      street: "Pleasure 4598"
+      city: "NYC"
+      state: "New York"
+      postalCode: "10012"
+      country: "United States"
+    -
+      number: 1919
+      street: "Spring"
+      city: "Orlando"
+      state: "Florida"
+      postalCode: "40412"
+      country: "United States"
+  communications:
+    - 
+      communicationType: "Phone"
+      communicationValue: "904-568-9343"
+      isPrefered: true
+    - 
+      communicationType: "Email"
+      communicationValue: "someone@gmail.com"
+      isPrefered: false
+ 

@@ -1,0 +1,31 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/Contact.raml
+
+type: object
+properties: 
+  id?: integer
+  firstName?: string
+  lastName?: string
+  dateOfBirth?: date-only
+  gender?: 
+    enum:
+      - Male
+      - Female
+  addresses?: 
+    type: array
+    items: !include Address.raml
+  communications?:
+    type: array
+    items: !include Communication.raml
+  title?: string
+  createdDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z
+  lastModifiedDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z
+
+
+
+  

@@ -1,0 +1,369 @@
+#%RAML 1.0
+
+title: Contact Database System API
+version: v1.0
+baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/ab108e9d-1b21-40ae-a8a1-4528c9e3079e/ # baseUri: https://anypoint.mulesoft.com/mocking/api/v1/links/a2927780-b96c-4173-9aef-fdeb96af9a65/ # baseUri: http://localhost:8081/api
+  
+types:
+  address: !include dataTypes/Address.raml
+  contact: !include dataTypes/Contact.raml
+  communication: !include dataTypes/Communication.raml
+  errorResponse: !include dataTypes/ErrorResponse.raml
+  successResponse: !include dataTypes/SuccessResponse.raml
+
+traits:
+  client_id-required: !include traits/client-id-security.raml
+
+/contacts:
+  is : [client_id-required]
+  description: |
+    Working with contacts:
+    * Retrieving all contacts
+    * Creating contacts
+    
+  get:
+    displayName: Get contacts
+    description: |
+      Retrieve all the Contacts.
+
+    queryParameters:
+      firstName:
+        displayName:  contact first name
+        minLength: 0
+        maxLength: 255
+        required: false
+      lastName:
+        displayName:  contact last name
+        minLength: 0
+        maxLength: 255
+        required: false
+      modifiedAfter:
+        displayName: Only those modified after this date
+        minLength: 23
+        maxLength: 29
+        required: false
+        example: 2016-04-28T14:00:00.000Z
+      modifiedBefore:
+        displayName: Only those modified before this date
+        minLength: 23
+        maxLength: 29
+        required: false
+        example: 2016-05-28T14:00:00.000Z
+    responses:
+      200:
+        body:
+          application/json:
+            type: contact[]
+            example: !include examples/get_contacts_example.yaml
+  post:
+    displayName: Create contact
+    description: |
+      Create a new Contact
+    body:
+      application/json:
+        type: contact
+        example: !include examples/post_contact_example.yaml
+    responses:
+      201:
+        body:
+          application/json:
+            example: 
+              {
+                "id": 345
+              }
+      400:
+          body:
+            application/json:
+              type: errorResponse
+              example: |
+                {
+                  "message": "Failed to create new Contact"
+                }
+  /{id}:
+    is : [client_id-required]
+    description: |
+      Working with contacts:
+      * Retrieving specific contact
+      * Updating specific contact
+      * Deleting specific contact
+    
+    uriParameters:
+      id:
+        type: integer
+        description: Represents the contact ID
+    get:
+      displayName: Get contact by id
+      description: Get Contact by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: contact
+              example: !include examples/get_contactById_example.yaml
+        404:
+          body:
+            application/json:
+              type: errorResponse
+              example: |
+                {
+                  "message": "Resource not found"
+                }
+    put:
+      displayName: Update contact by id
+      description: Update Contact specified by ID
+      body:
+        application/json:
+          type: contact
+          example: !include examples/put_contact_example.yaml
+      responses:
+        200:
+          body:
+            application/json:
+              type: successResponse
+              example: |
+                {
+                  "status": "OK"
+                }
+        404:
+          body:
+            application/json:
+              type: errorResponse
+              example: |
+                {
+                  "message": "Resource not found"
+                }
+    delete:
+      displayName: Delete contact by id
+      description: Deactivates (no longer Active) Contact specified by ID
+      responses:
+        200:
+          body:
+            application/json:
+              type: successResponse
+              example: |
+                {
+                  "status": "OK"
+                }
+        404:
+          body:
+            application/json:
+              type: errorResponse
+              example: |
+                {
+                  "message": "Resource not found"
+                }
+    /address:
+      is : [client_id-required]
+      get:
+        displayName: GET Contact Addresses
+        description: |
+            Retrieve all addresses of contact specificed in the uri path.
+        responses:
+          200:
+            body:
+              application/json:
+                type: address[]
+                example: !include examples/get_addresses_example.yaml
+      post:
+        displayName: Create Address to 
+        description: Adds a new address to contact by id
+        body:
+          application/json:
+            type: address
+            example: !include examples/post_address_example.yaml
+        responses:
+          201:
+            body:
+              application/json:
+                example: 
+                  {
+                    "id": 67676
+                  }
+          400:
+            body:
+              application/json:
+                type: errorResponse
+                example: 
+                  {
+                  "message": "Failed to add new address to Contact"
+                  }
+      /{addressId}:
+        is : [client_id-required]
+        description: |
+          Working with contact Addresses:
+          * Retrieving specific Address for a contact
+          * Updating specific Address for a contact
+          * Deleting specific Address for a contact
+        uriParameters:
+          id:
+            type: integer
+            description: Represents the Address ID
+        get:
+          displayName: Get Address by id
+          description: Get Contact by ID
+          responses:
+            200:
+              body:
+                application/json:
+                  type: address
+                  example: !include examples/get_addressById_example.yaml
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                    "message": "Resource not found"
+                    }
+        put:
+          displayName: Update Address by id for a Contact
+          description: Update Address specified by ID for a Contact
+          body:
+            application/json:
+              type: address
+              example: !include examples/put_address_example.yaml
+          responses:
+            200:
+              body:
+                application/json:
+                  type: successResponse
+                  example:
+                    {
+                    "status": "OK"
+                    }
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                  "message": "Resource not found"
+                  }
+        delete:
+          displayName: Delete Address by id 
+          description: Deactivates (no longer Active) Address specified by ID for a specific 
+          responses:
+            200:
+              body:
+                application/json:
+                  type: successResponse
+                  example: 
+                    {
+                    "status": "OK"
+                    }
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                      "message": "Resource not found"
+                    }
+    /communication:
+      is : [client_id-required]
+      get:
+        displayName: GET Contact Communicarion
+        description: |
+            Retrieve all communications of contact specificed in the uri path.
+        responses:
+          200:
+            body:
+              application/json:
+                type: communication[]
+                example: !include examples/get_communication_example.yaml
+      post:
+        displayName: Create communication 
+        description: Adds a new communication to contact by id
+        body:
+          application/json:
+            type: address
+            example: !include examples/post_communication_example.yaml
+        responses:
+          201:
+            body:
+              application/json:
+                example: 
+                  {
+                    "id": 67676
+                  }
+          400:
+            body:
+              application/json:
+                type: errorResponse
+                example: 
+                  {
+                  "message": "Failed to add new address to Contact"
+                  }
+      /{communicationId}:
+        is : [client_id-required]
+        description: |
+          Working with contact communications:
+          * Retrieving specific communication for a contact
+          * Updating specific communication for a contact
+          * Deleting specific communication for a contact
+        uriParameters:
+          id:
+            type: integer
+            description: Represents the communication ID
+        get:
+          displayName: Get communication by id
+          description: Get communication by ID
+          responses:
+            200:
+              body:
+                application/json:
+                  type: address
+                  example: !include examples/get_communicationById_example.yaml
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                    "message": "Resource not found"
+                    }
+        put:
+          displayName: Update communication by id for a Contact
+          description: Update communication specified by ID for a Contact
+          body:
+            application/json:
+              type: communication
+              example: !include examples/put_communication_example.yaml
+          responses:
+            200:
+              body:
+                application/json:
+                  type: successResponse
+                  example:
+                    {
+                    "status": "OK"
+                    }
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                  "message": "Resource not found"
+                  }
+        delete:
+          displayName: Delete communication by id 
+          description: Deactivates (no longer Active) communication specified by ID for a specific 
+          responses:
+            200:
+              body:
+                application/json:
+                  type: successResponse
+                  example: 
+                    {
+                    "status": "OK"
+                    }
+            404:
+              body:
+                application/json:
+                  type: errorResponse
+                  example:
+                    {
+                      "message": "Resource not found"
+                    }
+        

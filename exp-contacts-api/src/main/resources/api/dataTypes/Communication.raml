@@ -1,0 +1,16 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/Communication.raml
+
+type: object
+properties:
+  id?: integer
+  communicationType: string
+  communicationValue: string
+  isPrefered : boolean
+  createdDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z
+  lastModifiedDate?:
+    type: datetime
+    example: 2016-03-24T14:00:00.000Z

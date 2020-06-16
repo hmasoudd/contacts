@@ -50,6 +50,7 @@ and active = true]]></db:sql>
 output application/json
 ---
 payload map ( payload01 , indexOfPayload01 ) -> {
+	id: payload01.contactCommunicationId,
 	communicationType: payload01.communicationType,
 	communicationValue: payload01.communicationValue,
 	isPrefered: payload01.isPrefered
@@ -135,7 +136,7 @@ output application/json
 			</ee:message>
 		</ee:transform>
 		<flow-ref doc:name="Get Addresses" doc:id="f0a4378f-9ad0-4560-a9e0-706a38639a31" name="GetContactAddresses" target="addresses"/>
-		<flow-ref doc:name="Flow Reference" doc:id="0214498f-af6c-4fe9-8171-0914bd082bfd" name="GetContactCommunication" target="communications"/>
+		<flow-ref doc:name="Get Contact Communications" doc:id="0214498f-af6c-4fe9-8171-0914bd082bfd" name="GetContactCommunication" target="communications"/>
 		<ee:transform doc:name="Transform Message" doc:id="86ebc95c-df38-4adc-9dc1-29f70416fa9f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0

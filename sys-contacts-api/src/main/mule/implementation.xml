@@ -79,19 +79,22 @@ where active = true]]></db:sql>
 output application/json
 ---
 payload map ( contactRecord ) -> {
+	id: contactRecord.contactId,
 	firstName: contactRecord.firstName,
 	lastName: contactRecord.lastName,
 	dateOfBith: contactRecord.dateOfBirth,
 	gender: contactRecord.gender,
 	title: contactRecord.title,
-	addresses: vars.activeAddresses filter ($.contactId == contactRecord.contactId ) map ( activeAddress , indexOfActiveAddress ) -> {
+	addresses: vars.activeAddresses filter ($.contactId == contactRecord.contactId ) map ( activeAddress  ) -> {
+		id: activeAddress.ContactAddressId,
 		number: activeAddress.number,
 		street: activeAddress.street,
 		city: activeAddress.city,
 		state: activeAddress.state,
 		addressType: activeAddress.addressType
 	},
-	communications: vars.activeCommunications filter ($.contactId == contactRecord.contactId ) map ( activeCommunication , indexOfActiveCommunication ) -> {
+	communications: vars.activeCommunications filter ($.contactId == contactRecord.contactId ) map ( activeCommunication ) -> {
+		id: activeCommunication.contactCommunicationId , 
 		communicationType: activeCommunication.communicationType,
 		communicationValue: activeCommunication.communicationValue,
 		isPrefered: activeCommunication.isPrefered,

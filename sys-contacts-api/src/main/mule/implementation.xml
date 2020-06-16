@@ -263,7 +263,7 @@ set  communicationType = :communicationType , communicationValue= :communication
 where contactId = :contactId
 and contactCommunicationId = :communicationId
 and active=true]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{communicationType: payload.communicationType , communicationValue : payload.communicationValue , isPrefered : vars.isPrefered as Boolean , contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
+			<db:input-parameters ><![CDATA[#[{communicationType: payload.communicationType , communicationValue : payload.communicationValue , isPrefered : payload.isPrefered as Boolean , contactId : vars.id as Number , communicationId : vars.communicationId as Number }]]]></db:input-parameters>
 		</db:update>
 	</flow>
 	<flow name="DeActivateAllAddressesForContact" doc:id="4e274742-ddae-4fc7-8068-1d7e25ab1299" >

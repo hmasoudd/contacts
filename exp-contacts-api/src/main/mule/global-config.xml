@@ -13,6 +13,5 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
         <http:listener-connection host="0.0.0.0" port="8081" />
     </http:listener-config>
     <apikit:config name="contact-system-api-config" api="contact-system-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />
-	<api-gateway:autodiscovery apiId="16212812" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="69c1fc8d-71be-4931-b9c7-aa1db6eeaa0c" flowRef="contact-system-api-main" />
 	  			
 </mule>

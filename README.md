@@ -17,11 +17,9 @@ This Repository Contains Mulesoft Project source Code and documentations.
 - Database Tables DDL file createContactsTables.sql is available in same README.md directory to review table details.
 
 # Notes
-- Please note this is a System API only that are designed as a fine grained API Services  to all possible needs to serve different Experience APIs as needed. I am currently building an Experience API and ReactJS Client application on top of this System API.ReactJs application will also be deployed to AWS. But due to time constrains and as I promised to deliver this API after the weekend.
-
+- Please note that I create Munit tests for Exp API Only and not all flows due to time limitations.
+-  System API was designed as a fine grained API Services to all possible needs to serve different Experience APIs as needed. 
 - Please let me know if you would like to see the finalized code after building the Experience API along with ReactJS code.
-
-
 
 # Code
 
@@ -33,7 +31,7 @@ This Repository Contains Mulesoft Project source Code and documentations.
 
 - Please start the application from Anypoint Studio if you would like to locally run/debug the code. For local please use http://localhost:8081/api as application root context. 
 
-- Code are completly functional in both APIs and can create, update and Retrieve data
+- Code are completely functional in both APIs and can create, update and Retrieve data
 
 - Deletion is designed as (Logical deletion ) by setting active flag to false. So records stays in database but is no longer visible to apply CUR operations.
 

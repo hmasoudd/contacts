@@ -2,8 +2,12 @@
 This Repository Contains Mulesoft Project source Code and documentations.
 
 # Introduction
-- This is a Mulesoft Application is currently deployed at Cloudbub and Exchange Documentation are also available
-- Postman Collection file Contact-Collection.postman_collection.json is available to test all operations and paining to Cloudhub Instance. Please import this file using postman and review and tests request to test the SYS API.
+- These Are Two Mulesoft Applications ( Experience and System APIs) are currently deployed at Cloudhub and Exchange Documentation are also available.
+
+- For Simplecity No Process API was needed as no orchestration or data collection was needed. Also both Exp and Sys API are exposing Same Interfaces as of current implemention. 
+
+- Postman Collection file Contact-Collection.postman_collection.json is available to test all operations and pointing to The Experience API in Cloudhub Instance. Please import this file using postman and review and tests request to test the SYS API.
+
 - AWS Mysql database instance in are currently used as RDS. please feel free to brows the tables and data . The connection details are :
   	host: "contactsdb.czld4orqrhcv.us-east-2.rds.amazonaws.com"
   	port: "3306"
@@ -21,7 +25,7 @@ This Repository Contains Mulesoft Project source Code and documentations.
 
 # Code
 
-- Please clone the code  from https://github.com/hmasoudd/contacts and import the sys-contacts-api into Anypoint Studio
+- Please clone the code  from https://github.com/hmasoudd/contacts and import Both exp-contacts-api and sys-contacts-api into Anypoint Studio
 
 - please visit public exchange portal for API at https://anypoint.mulesoft.com/exchange/portals/sonic-development
 
@@ -29,9 +33,7 @@ This Repository Contains Mulesoft Project source Code and documentations.
 
 - Please start the application from Anypoint Studio if you would like to locally run/debug the code. For local please use http://localhost:8081/api as application root context. 
 
-- Code is functional you can create, update and Retrieve data
+- Code are completly functional in both APIs and can create, update and Retrieve data
 
-- Deletion is designed as setting active flag to false. So records stays in database but is no longer visible to apply CUR operations.
-
-- Due to very limited time to develop that code , I have not optimized the code for performance nor  applying transaction management ACID capabilities.
+- Deletion is designed as (Logical deletion ) by setting active flag to false. So records stays in database but is no longer visible to apply CUR operations.
 

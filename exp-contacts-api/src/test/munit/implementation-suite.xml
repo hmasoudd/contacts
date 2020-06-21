@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="implementation-suite.xml" />
+	<munit:test name="AddAddressToContactFlow-test" doc:id="1087e616-c993-409b-ae81-399f82dbaff3" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="7c6325cc-07f0-4dae-a360-619411360dc5" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://AddAddressToContactFlowtest/set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://AddAddressToContactFlowtest/set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://AddAddressToContactFlowtest/set-event_variable_.dwl')]" />
+					<munit:variable key="id" value="#[output application/java --- readUrl('classpath://AddAddressToContactFlowtest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to AddAddressToContactFlow" doc:id="3afdceb8-778b-40c4-bc68-a7171f078d3f" name="AddAddressToContactFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="2a063c12-83e8-4174-8f49-69e423af8457" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import AddAddressToContactFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="AddCommunicationToContactFlow-test" doc:id="a786b246-b7ac-4688-8a1d-aee1095d2651" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="2b7e1a7e-027d-4d46-939f-a89e661236c8" >
+				<munit:payload value="#[output application/json --- readUrl('classpath://AddCommunicationToContactFlowtest/set-event_payload.dwl')]" encoding="UTF-8" mediaType="application/json" />
+				<munit:attributes value="#[readUrl('classpath://AddCommunicationToContactFlowtest/set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://AddCommunicationToContactFlowtest/set-event_variable_.dwl')]" />
+					<munit:variable key="id" value="#[output application/java --- readUrl('classpath://AddCommunicationToContactFlowtest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to AddCommunicationToContactFlow" doc:id="d8048563-e659-4804-b15a-b9ca39df02c9" name="AddCommunicationToContactFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="e7185702-20dd-4eed-a49a-54e69eb89ae4" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import AddCommunicationToContactFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="DeleteAddressByIdFlow-test" doc:id="63f3a6cd-3339-4afd-a7ba-65ac71daa180" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="57a86065-caaa-42f7-a8c6-010436d8d6d1" >
+				<munit:payload value="#[readUrl('classpath://DeleteAddressByIdFlowtest/set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://DeleteAddressByIdFlowtest/set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://DeleteAddressByIdFlowtest/set-event_variable_.dwl')]" />
+					<munit:variable key="id" value="#[output application/java --- readUrl('classpath://DeleteAddressByIdFlowtest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+					<munit:variable key="addressId" value="#[output application/java --- readUrl('classpath://DeleteAddressByIdFlowtest/set-event_variable_2.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to DeleteAddressByIdFlow" doc:id="71530714-5f9e-4324-b867-6cd9c198eb86" name="DeleteAddressByIdFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="73d2108d-5149-4b4e-b0b0-943c67790f38" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import DeleteAddressByIdFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="GetContactAddressesFlow-test" doc:id="a81c84fa-af17-490c-8fb8-bb2fe287e80d" >
+		<munit:behavior >
+			<munit:set-event doc:name="Set Input" doc:id="c4ffcd2b-83ef-4b9a-8cf1-a20461971072" >
+				<munit:payload value="#[readUrl('classpath://GetContactAddressesFlowtest/set-event_payload.dwl')]" encoding="UTF-8" />
+				<munit:attributes value="#[readUrl('classpath://GetContactAddressesFlowtest/set-event_attributes.dwl')]" />
+				<munit:variables >
+					<munit:variable key="outboundHeaders" value="#[readUrl('classpath://GetContactAddressesFlowtest/set-event_variable_.dwl')]" />
+					<munit:variable key="id" value="#[output application/java --- readUrl('classpath://GetContactAddressesFlowtest/set-event_variable_1.dwl')]" encoding="UTF-8" mediaType="application/java" />
+				</munit:variables>
+			</munit:set-event>
+		</munit:behavior>
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to GetContactAddressesFlow" doc:id="e2f79455-3055-498d-8763-dc170bfbece1" name="GetContactAddressesFlow"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert payload" doc:id="86bd15a9-a6b1-4b43-a3dc-27aab1d0d5de" message="The payload does not match">
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import GetContactAddressesFlowtest::assert_expression_payload
+---
+assert_expression_payload::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+</mule>

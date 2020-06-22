@@ -399,10 +399,21 @@
 			"name": "CreateContact",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "client_id",
+						"value": "237365396b3044ffb2524ba54a64fc1f",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "20Ec4a59650A4FB28D5313431fe5661c",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"firstName\": \"Jason\",\n  \"lastName\": \"Bourne\",\n  \"dateOfBirth\": \"2001-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Pleasure 4598\",\n      \"city\": \"Shreveport\",\n      \"state\": \"Louisiana\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"904-568-9343\"\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"someone@gmail.com\"\n    }\n  ]\n}",
+					"raw": "{\n  \"firstName\": \"Robert\",\n  \"lastName\": \"DeNiro\",\n  \"dateOfBirth\": \"1948-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Corona Visrus 4598\",\n      \"city\": \"Houston\",\n      \"state\": \"Texas\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"987-568-2345\",\n       \"isPrefered\": false\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"Deniro@gmail.com\",\n      \"isPrefered\" : true\n    }\n  ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -410,12 +421,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/contacts",
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
 					],
-					"port": "8081",
 					"path": [
 						"api",
 						"contacts"
@@ -428,10 +441,21 @@
 			"name": "AddCommunicationToContact",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "contact_id",
+						"value": "237365396b3044ffb2524ba54a64fc1f",
+						"type": "text"
+					},
+					{
+						"key": "contact_secret",
+						"value": "jklljk",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"firstName\": \"Jason\",\n  \"lastName\": \"Bourne\",\n  \"dateOfBirth\": \"2001-10-19\",\n  \"gender\": \"Male\",\n  \"addresses\": [\n    {\n      \"number\": 234,\n      \"street\": \"Pleasure 4598\",\n      \"city\": \"Shreveport\",\n      \"state\": \"Louisiana\",\n      \"postalCode\": \"71105\",\n      \"addressType\" :  \"HOME\"\n    },\n    {\n      \"number\": 987,\n      \"street\": \"Autumn Leaf 3\",\n      \"city\": \"Jackson\",\n      \"state\": \"Mississippi\",\n      \"postalCode\": \"39204\",\n      \"addressType\": \"HOME\"\n    }\n  ],\n  \"communications\": [\n    {\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"904-568-9343\"\n    },\n    {\n      \"communicationType\": \"Email\",\n      \"communicationValue\": \"someone@gmail.com\"\n    }\n  ]\n}",
+					"raw": "{\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"678-234-9343\",\n      \"isPrefered\" : false\n\t\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -439,15 +463,63 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8081/api/contacts",
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts/1001/communication",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
 					],
-					"port": "8081",
 					"path": [
 						"api",
-						"contacts"
+						"contacts",
+						"1001",
+						"communication"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddCommunicationToContact-local",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "237365396b3044ffb2524ba54a64fc1f",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "20Ec4a59650A4FB28D5313431fe5661c",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n      \"communicationType\": \"Phone\",\n      \"communicationValue\": \"678-234-9999\",\n      \"isPrefered\" : false\n\t\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://sys-contacts-api.us-e2.cloudhub.io/api/contacts/1014/communication",
+					"protocol": "http",
+					"host": [
+						"sys-contacts-api",
+						"us-e2",
+						"cloudhub",
+						"io"
+					],
+					"path": [
+						"api",
+						"contacts",
+						"1014",
+						"communication"
 					]
 				}
 			},
@@ -477,6 +549,48 @@
 					"path": [
 						"api",
 						"contacts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddAddressToContact local",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "client_id",
+						"value": "237365396b3044ffb2524ba54a64fc1f",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "fsdfsffdssfdfdsfsd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"number\": 3343,\n  \"unit\": \"two\",\n  \"city\": \"King\",\n  \"addressType\": \"HOME\",\n  \"street\": \"Atlanta St W\",\n  \"postalCode\": \"54321\",\n  \"state\": \"NC\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/contacts/1002/address",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"contacts",
+						"1002",
+						"address"
 					]
 				}
 			},
